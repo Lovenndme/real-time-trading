@@ -108,21 +108,21 @@
                 <version>${fastJson.version}</version>
             </dependency>
 
-            <!--工具包-->
+            <!--utils-->
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons-lang.version}</version>
             </dependency>
 
-            <!--增强aop-->
+            <!--aop-->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
                 <version>${aspectjrt.version}</version>
             </dependency>
 
-            <!--增强aop-->
+            <!--aop-->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
@@ -136,14 +136,14 @@
                 <version>${jjwt.version}</version>
             </dependency>
 
-            <!--阿里云-->
+            <!--alioss-->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
-            <!--增强swagger-->
+            <!--swagger-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -157,21 +157,21 @@
                 <version>${spring-aop.version}</version>
             </dependency>
 
-            <!--XML映射-->
+            <!--XML reflect-->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api.version}</version>
             </dependency>
 
-            <!--验证框架-->
+            <!--validation-->
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
 
-            <!--验证框架-->
+            <!--validation-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
@@ -185,14 +185,14 @@
                 <version>${spring-boot-starter-mail.version}</version>
             </dependency>
 
-            <!--加密-->
+            <!--encode-->
             <dependency>
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-spring-boot-starter</artifactId>
                 <version>${jasypt-spring-boot-starter.version}</version>
             </dependency>
 
-            <!--消息队列-->
+            <!--mq-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
@@ -206,7 +206,7 @@
                 <version>${spring-boot-starter-websocket.version}</version>
             </dependency>
 
-            <!--工具包-->
+            <!--utils-->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -220,7 +220,7 @@
                 <version>${spring-boot-starter-security.version}</version>
             </dependency>
 
-            <!--分页查询-->
+            <!--paging query-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
