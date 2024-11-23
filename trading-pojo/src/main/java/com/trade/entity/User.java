@@ -1,6 +1,8 @@
 package com.trade.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityScan
+@TableName("user")
 public class User implements Serializable {
 
     private Long id;
