@@ -1,23 +1,31 @@
 package com.trade.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.trade.dto.UserModifyDTO;
 import com.trade.entity.LoginUser;
 import com.trade.entity.User;
+import com.trade.exception.AlreadyExistException;
+import com.trade.exception.FormatErrorException;
 import com.trade.mapper.UserMapper;
 import com.trade.service.UserService;
+import com.trade.utils.RegexUtils;
 import com.trade.vo.UserQueryVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.trade.constant.MessageConstant.*;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Override
-    public UserQueryVO queryUser() {
+    public UserQueryVO findMe() {
         // 获取当前登录用户的ID
         Long userId = getCurrentUserId();
 
@@ -37,6 +45,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .telephone(maskedTelephone)
                 .password(maskedPassword)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public void userUpdate(UserModifyDTO userModifyDTO) {
+        Long userId = getCurrentUserId();
+
+        validateEmployeeFields(userModifyDTO, userId);
+
+        UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+        wrapper.eq("id", userId)
+                .set("username", userModifyDTO.getUsername())
+                .set("telephone", userModifyDTO.getTelephone())
+                .set("email", userModifyDTO.getEmail());
+
+        update(wrapper);
+
     }
 
     /**
@@ -89,5 +114,61 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private String maskPassword(String password) {
         // 默认返回全掩码
         return "********"; // 始终返回固定长度的掩码
+    }
+
+    private void validateEmployeeFields(UserModifyDTO userModifyDTO, Long excludeEmpId) {
+
+        // 检查其他字段
+        if (checkNull(userModifyDTO.getUsername()) || checkNull(userModifyDTO.getTelephone()) || checkNull(userModifyDTO.getEmail())) {
+            throw new NullPointerException("表单字段不能为空");
+        }
+
+        // 检查用户名唯一性
+        if (checkUsername(userModifyDTO.getUsername(), excludeEmpId)) {
+            throw new AlreadyExistException(USERNAME_ALREADY_EXISTS);
+        }
+
+        // 手机号格式检查
+        if (RegexUtils.isPhoneInvalid(userModifyDTO.getTelephone())) {
+            throw new FormatErrorException(PHONE_NUMBER_FORMAT_ERROR);
+        }
+
+        // 检查手机号唯一性
+        if (checkPhone(userModifyDTO.getTelephone(), excludeEmpId)) {
+            throw new AlreadyExistException(PHONE_NUMBER_ALREADY_EXISTS);
+        }
+
+        // 邮箱格式检查
+        if (RegexUtils.isEmailInvalid(userModifyDTO.getEmail())) {
+            throw new FormatErrorException(EMAIL_FORMAT_ERROR);
+        }
+
+        // 检查邮箱唯一性
+        if (checkEmail(userModifyDTO.getEmail(), excludeEmpId)) {
+            throw new AlreadyExistException(EMAIL_ALREADY_EXISTS);
+        }
+    }
+
+    private Boolean checkNull(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    // 唯一性检查方法，排除特定员工ID（用于更新时）
+    private Boolean checkUsername(String username, Long excludeEmpId) {
+        return this.lambdaQuery().eq(User::getUsername, username)
+                .ne(excludeEmpId != null, User::getId, excludeEmpId)
+                .count() > 0;
+    }
+
+    private Boolean checkPhone(String phone, Long excludeEmpId) {
+        return this.lambdaQuery().eq(User::getTelephone, phone)
+                .ne(excludeEmpId != null, User::getId, excludeEmpId)
+                .count() > 0;
+    }
+
+    private Boolean checkEmail(String email, Long excludeEmpId) {
+        return this.lambdaQuery().eq(User::getEmail, email)
+                .ne(excludeEmpId != null, User::getId, excludeEmpId)
+                .count() > 0;
     }
 }
