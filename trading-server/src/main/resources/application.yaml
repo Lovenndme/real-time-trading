@@ -1,0 +1,78 @@
+server:
+  port: 8888
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: ${trade.datasource.driver-class-name}
+    url: jdbc:mysql://${trade.datasource.host}:${trade.datasource.port}/${trade.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${trade.datasource.username}
+    password: ${trade.datasource.password}
+  data:
+    redis:
+      cluster:
+        nodes:
+          - 47.122.40.210:6379
+          - 47.122.40.210:6380
+          - 47.122.40.210:6381
+          - 47.122.40.210:6382
+          - 47.122.40.210:6383
+          - 47.122.40.210:6384
+  mail:
+    host: ${trade.mail.host}
+    username: ${trade.mail.username}
+    password: ${trade.mail.password}
+    port: ${trade.mail.port}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            required: true
+        debug: true
+  rabbitmq:
+    host: ${trade.rabbitmq.host}
+    port: ${trade.rabbitmq.port}
+    virtual-host: ${trade.rabbitmq.virtual-host}
+    username: ${trade.rabbitmq.username}
+    password: ${trade.rabbitmq.password}
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000ms
+        multiplier: 1
+        max-attempts: 1
+    listener:
+      simple:
+        prefetch: 1
+        acknowledge-mode: auto
+        retry:
+          enabled: true
+          stateless: false
+logging:
+  file:
+    name: trading-server/src/main/resources/templates/logs.log
+  level:
+    com:
+      supply:
+        mapper: debug
+        service: debug
+        controller: debug
+trade:
+  alioss:
+    endpoint: ${trade.alioss.endpoint}
+    access-key-id: ${trade.alioss.access-key-id}
+    access-key-secret: ${trade.alioss.access-key-secret}
+    bucket-name: ${trade.alioss.bucket-name}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '实时交易系统项目接口文档'
+      paths-to-match: '/**'
+      packages-to-scan: com.trade.controller
