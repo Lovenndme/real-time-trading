@@ -49,7 +49,6 @@
         <spring-boot-starter-websocket.version>3.2.5</spring-boot-starter-websocket.version>
         <hutool-all.version>5.8.25</hutool-all.version>
         <spring-boot-starter-security.version>3.2.5</spring-boot-starter-security.version>
-        <pagehelper.version>5.3.1</pagehelper.version>
         <spring-boot-starter-data-elasticsearch.version>3.2.5</spring-boot-starter-data-elasticsearch.version>
         <elasticsearch-java.version>8.13.0</elasticsearch-java.version>
         <redisson.version>3.35.0</redisson.version>
@@ -75,7 +74,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
+                <version>8.0.32</version>
                 <scope>runtime</scope>
             </dependency>
 
@@ -218,13 +217,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot-starter-security.version}</version>
-            </dependency>
-
-            <!--paging query-->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-                <version>${pagehelper.version}</version>
             </dependency>
 
             <!--Elasticsearch-->
