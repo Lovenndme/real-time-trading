@@ -1,6 +1,8 @@
 package com.trade.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.trade.constant.JwtClaimsConstant;
 import com.trade.constant.MessageConstant;
 import com.trade.dto.LoginDTO;
@@ -9,6 +11,8 @@ import com.trade.entity.LoginUser;
 import com.trade.entity.User;
 import com.trade.exception.LoginErrorException;
 import com.trade.exception.VerificationErrorException;
+import com.trade.mapper.AuthorizationMapper;
+import com.trade.mapper.UserMapper;
 import com.trade.properties.JwtProperties;
 import com.trade.service.AuthorizationService;
 import com.trade.utils.EmailUtil;
@@ -24,8 +28,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -37,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AuthorizationServiceImpl implements AuthorizationService {
+public class AuthorizationServiceImpl extends ServiceImpl<UserMapper, User> implements AuthorizationService {
 
     private final EmailUtil emailUtil;
 
@@ -50,6 +57,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private final RabbitTemplate rabbitTemplate;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final AuthorizationMapper authorizationMapper;
 
     /**
      * 发送验证码接口
@@ -67,14 +78,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
      *
      * @param registerDTO 注册信息
      */
+    @Transactional
     public void register(RegisterDTO registerDTO) {
         //执行验证码判断
         String code = Objects.requireNonNull(redisTemplate.opsForValue().get("verification:code" + registerDTO.getEmail())).toString();
         if (!Objects.equals(registerDTO.getCode(), code)) {
             throw new VerificationErrorException(MessageConstant.VERIFICATION_ERROR);
         }
-        log.info("注册用户信息：{}",registerDTO);
-        //TODO 信息放入数据库
+        log.info("注册用户信息：{}", registerDTO);
+        User user = User.builder()
+                .password(bCryptPasswordEncoder.encode(registerDTO.getPassword()))
+                .nation(registerDTO.getNation())
+                .telephone(registerDTO.getTelephone())
+                .createTime(LocalDateTime.now())
+                .username(registerDTO.getUsername())
+                .updateTime(LocalDateTime.now()).build();
+        authorizationMapper.register(user);
+        Long id = user.getId();
+        authorizationMapper.init(id);
     }
 
     /**
@@ -102,7 +123,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             //用户信息存入redis
             redisTemplate.opsForValue().set("login:" + userId, loginUser);
             //进行风控校验
-            executor.submit(() ->{
+            executor.submit(() -> {
                 String s = JSONObject.toJSONString(u);
                 String exchangeName = "loginSafety.direct";
                 String routingKey = "loginSafetyDirect";

@@ -38,7 +38,6 @@ public class SecurityConfig {
                         .requestMatchers("/authorization/register").anonymous()
                         .requestMatchers("/authorization/login").anonymous()
                         .requestMatchers("/doc.html").anonymous()
-                        .requestMatchers("/trade/paymentCode").anonymous()
                         .requestMatchers("/webjars/**").anonymous()
                         .requestMatchers("/v3/**").anonymous()
                         .requestMatchers("/swagger-resources/**").anonymous()

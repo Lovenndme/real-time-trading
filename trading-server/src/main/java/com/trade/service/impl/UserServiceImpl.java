@@ -54,7 +54,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /**
      * 更改用户信息
-     *
      * @param userModifyDTO 更改的用户信息
      */
     @Transactional
@@ -128,7 +127,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private void validateEmployeeFields(UserModifyDTO userModifyDTO, Long excludeEmpId) {
 
         // 检查其他字段
-        if (checkNull(userModifyDTO.getUsername()) || checkNull(userModifyDTO.getEmail())) {
+        if (checkNull(userModifyDTO.getUsername()) || checkNull(userModifyDTO.getTelephone()) || checkNull(userModifyDTO.getEmail())) {
             throw new NullPointerException("表单字段不能为空");
         }
 

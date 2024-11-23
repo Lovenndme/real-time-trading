@@ -76,3 +76,8 @@ springdoc:
     - group: '实时交易系统项目接口文档'
       paths-to-match: '/**'
       packages-to-scan: com.trade.controller
+mybatis-plus:
+  type-aliases-package: com.trade.entity
+  global-config:
+    db-config:
+      id-type: auto
