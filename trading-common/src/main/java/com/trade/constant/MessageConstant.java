@@ -13,4 +13,8 @@ public class MessageConstant {
     public static final String PHONE_NUMBER_FORMAT_ERROR = "手机号格式错误";
     public static final String EMAIL_FORMAT_ERROR = "邮箱格式错误";
     public static final String EMAIL_ALREADY_EXISTS = "邮箱已存在";
+    public static final String VERIFICATION_ERROR = "验证码错误";
+    public static final String INFORMATION_ERROR = "用户名或密码错误，请检查后重试";
+    public static final String UPLOAD_FAILED = "文件上传失败";
+    public static final String QRCODE_GENERATED_FAILED = "二维码生成失败，请刷新重试";
 }

@@ -6,12 +6,10 @@ import com.trade.service.UserService;
 import com.trade.vo.UserQueryVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -29,9 +27,11 @@ public class UserController {
         return Result.success(vo);
     }
 
-    public Result<Object> updateUser(@RequestBody UserModifyDTO userModifyDTO) {
+    @PutMapping
+    @Operation(summary = "修改用户信息")
+    public Result<Object> updateUser(@RequestBody @Valid UserModifyDTO userModifyDTO) {
         userService.userUpdate(userModifyDTO);
-        return Result.success("修改信息成功");
+        return Result.success();
     }
 
 }

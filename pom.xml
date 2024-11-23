@@ -37,6 +37,8 @@
         <aspectjrt.version>1.9.4</aspectjrt.version>
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <zxing.core.version>3.3.3</zxing.core.version>
+        <zxing.javase.version>3.3.3</zxing.javase.version>
         <aliyun-sdk-oss.version>3.17.4</aliyun-sdk-oss.version>
         <knife4j.version>4.4.0</knife4j.version>
         <spring-aop.version>6.0.4</spring-aop.version>
@@ -49,9 +51,9 @@
         <spring-boot-starter-websocket.version>3.2.5</spring-boot-starter-websocket.version>
         <hutool-all.version>5.8.25</hutool-all.version>
         <spring-boot-starter-security.version>3.2.5</spring-boot-starter-security.version>
+        <pagehelper.version>5.3.1</pagehelper.version>
         <spring-boot-starter-data-elasticsearch.version>3.2.5</spring-boot-starter-data-elasticsearch.version>
         <elasticsearch-java.version>8.13.0</elasticsearch-java.version>
-        <redisson.version>3.35.0</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -74,7 +76,7 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.32</version>
+                <version>${mysql.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
@@ -233,12 +235,20 @@
                 <version>${elasticsearch-java.version}</version>
             </dependency>
 
-            <!--Redisson-->
+            <!--QR code-->
             <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson</artifactId>
-                <version>${redisson.version}</version>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.core.version}</version>
             </dependency>
+
+            <!--QR code-->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.javase.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

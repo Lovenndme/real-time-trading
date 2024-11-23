@@ -6,6 +6,7 @@ import com.trade.entity.User;
 import com.trade.vo.UserQueryVO;
 
 public interface UserService extends IService<User> {
+
     UserQueryVO findMe();
 
     void userUpdate(UserModifyDTO userModifyDTO);

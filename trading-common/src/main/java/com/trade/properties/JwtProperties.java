@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "drug.jwt")
+@ConfigurationProperties(prefix = "trade.jwt")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

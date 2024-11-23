@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -25,9 +24,6 @@ public class SecurityConfig {
 
     private final AuthenticationEntryPointImpl authenticationEntryPoint;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
-
     // 配置安全过滤链
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,12 +34,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 配置授权规则
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login").anonymous()
-                        .requestMatchers("/user/register").anonymous()
-                        .requestMatchers("/user/resetPassword").anonymous()
-                        .requestMatchers("/user/verifyCode/send").anonymous()
-                        .requestMatchers("/user/reUpload").anonymous()
+                        .requestMatchers("/authorization/sendCode").anonymous()
+                        .requestMatchers("/authorization/register").anonymous()
+                        .requestMatchers("/authorization/login").anonymous()
                         .requestMatchers("/doc.html").anonymous()
+                        .requestMatchers("/trade/paymentCode").anonymous()
                         .requestMatchers("/webjars/**").anonymous()
                         .requestMatchers("/v3/**").anonymous()
                         .requestMatchers("/swagger-resources/**").anonymous()

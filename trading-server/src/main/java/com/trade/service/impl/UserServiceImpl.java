@@ -24,7 +24,12 @@ import static com.trade.constant.MessageConstant.*;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Override
+
+    /**
+     * 用户信息回显
+     *
+     * @return 用户信息
+     */
     public UserQueryVO findMe() {
         // 获取当前登录用户的ID
         Long userId = getCurrentUserId();
@@ -47,7 +52,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .build();
     }
 
-    @Override
+    /**
+     * 更改用户信息
+     *
+     * @param userModifyDTO 更改的用户信息
+     */
     @Transactional
     public void userUpdate(UserModifyDTO userModifyDTO) {
         Long userId = getCurrentUserId();
@@ -119,7 +128,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private void validateEmployeeFields(UserModifyDTO userModifyDTO, Long excludeEmpId) {
 
         // 检查其他字段
-        if (checkNull(userModifyDTO.getUsername()) || checkNull(userModifyDTO.getTelephone()) || checkNull(userModifyDTO.getEmail())) {
+        if (checkNull(userModifyDTO.getUsername()) || checkNull(userModifyDTO.getEmail())) {
             throw new NullPointerException("表单字段不能为空");
         }
 
@@ -153,7 +162,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return str == null || str.isEmpty();
     }
 
-    // 唯一性检查方法，排除特定员工ID（用于更新时）
     private Boolean checkUsername(String username, Long excludeEmpId) {
         return this.lambdaQuery().eq(User::getUsername, username)
                 .ne(excludeEmpId != null, User::getId, excludeEmpId)

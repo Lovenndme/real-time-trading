@@ -5,20 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import java.io.Serializable;
+
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class UserQueryVO {
+@Data
+public class LoginVO implements Serializable {
 
     private Long id;
 
-    private String username;
-
-    private String email;
-
-    private String telephone;
-
-    private String password;
+    private String token;
 
 }

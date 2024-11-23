@@ -65,7 +65,7 @@ public class EmailUtil {
                 "<html>\n" +
                 "<head>\n" +
                 "<meta charset=\"utf-8\">\n" +
-                "<title>药品供应管理系统</title>\n" +
+                "<title>实时交易系统</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "\t<h3> " + text + "</h3>\n" +
@@ -95,11 +95,11 @@ public class EmailUtil {
                 "<html>\n" +
                 "<head>\n" +
                 "<meta charset=\"utf-8\">\n" +
-                "<title>药品供应管理系统</title>\n" +
+                "<title>实时交易系统</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "\t<h1> " + "药品供应管理系统" + "</h1>\n" +
-                "\t<h3> " + " <药品供应管理系统>最近登录提醒：你于" + time + "在" + location + "进行了登录操作，如果不是你本人操作，请联系管理人员处理" + "</h1>\n" +
+                "\t<h1> " + "实时交易系统" + "</h1>\n" +
+                "\t<h3> " + " <实时交易系统>最近登录提醒：你于" + time + "在" + location + "进行了登录操作，如果不是你本人操作，请联系管理人员处理" + "</h1>\n" +
                 "<br></br>" +
                 "</body>\n" +
                 "</html>";

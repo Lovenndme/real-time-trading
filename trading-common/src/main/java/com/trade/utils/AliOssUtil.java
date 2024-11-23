@@ -30,6 +30,26 @@ public class AliOssUtil {
         InputStream inputStream = file.getInputStream();
 
         String originalFilename = file.getOriginalFilename();
+        String fileName = null;
+        if (originalFilename != null) {
+            fileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ossClient.putObject(bucketName, fileName, inputStream);
+
+        String url = endpoint.split("//")[0] + "//" + bucketName + "." + endpoint.split("//")[1] + "/" + fileName;
+        ossClient.shutdown();
+        return url;
+    }
+
+    public String upload(InputStream inputStream, String originalFilename) throws IOException {
+
+        String endpoint = aliOssProperties.getEndpoint();
+        String accessKeyId = aliOssProperties.getAccessKeyId();
+        String bucketName = aliOssProperties.getBucketName();
+        String accessKeySecret = aliOssProperties.getAccessKeySecret();
+
         String fileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
 
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
