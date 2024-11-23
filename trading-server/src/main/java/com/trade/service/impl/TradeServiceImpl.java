@@ -28,7 +28,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
@@ -48,7 +47,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, UserQrRemaining> 
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
-    private TradeMapper tradeMapper;
+    private final TradeMapper tradeMapper;
 
     /**
      * 支付码生成
