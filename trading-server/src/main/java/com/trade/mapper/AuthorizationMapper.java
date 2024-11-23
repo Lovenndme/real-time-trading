@@ -23,7 +23,7 @@ public interface AuthorizationMapper {
      *
      * @param user 注册的用户信息
      */
-    @Insert("INSERT INTO users (username, password, telephone, email, nation, image, create_time, update_time) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{nation}, #{image}, #{create_time}, #{update_time})")
+    @Insert("INSERT INTO user (username, password, telephone, email, nation, image, create_time, update_time) VALUES (#{username}, #{password}, #{telephone}, #{email}, #{nation}, #{image}, #{create_time}, #{update_time})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void register(User user);
 

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/common")
 @Tag(name = "文件上传")
 @Slf4j
 @RequiredArgsConstructor

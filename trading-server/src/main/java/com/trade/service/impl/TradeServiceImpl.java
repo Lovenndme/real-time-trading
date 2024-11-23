@@ -10,6 +10,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.encoder.QRCode;
 import com.trade.constant.MessageConstant;
 import com.trade.entity.LoginUser;
 import com.trade.entity.UserQrRemaining;
@@ -48,7 +49,7 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, UserQrRemaining> 
 
     private final RedisTemplate<Object, Object> redisTemplate;
 
-    private TradeMapper tradeMapper;
+    private final TradeMapper tradeMapper;
 
     /**
      * 支付码生成
@@ -56,8 +57,10 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, UserQrRemaining> 
     public String generatePaymentCode() {
         Long userId = getCurrentUserId();
         // 检查缓存中是否有已生成的二维码
-        String QRUrl = redisTemplate.opsForValue().get("user:QRCode:" + userId).toString();
-        if (!Objects.isNull(QRUrl)) {
+        String QRUrl;
+        Object o = redisTemplate.opsForValue().get("user:QRCode:" + userId);
+        if (!Objects.isNull(o)) {
+            QRUrl = o.toString();
             return QRUrl;
         }
         UserQrRemaining u = query().eq("id", userId).one();
@@ -111,7 +114,6 @@ public class TradeServiceImpl extends ServiceImpl<TradeMapper, UserQrRemaining> 
             return QRUrl;
         } catch (WriterException | IOException e) {
             log.error("生成或上传二维码失败: {}", e.getMessage());
-            e.printStackTrace();
             throw new GenerateQRCodeFailureException(MessageConstant.QRCODE_GENERATED_FAILED);
         }
     }

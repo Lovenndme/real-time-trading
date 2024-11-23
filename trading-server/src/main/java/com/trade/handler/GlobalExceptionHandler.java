@@ -4,7 +4,9 @@ import com.trade.constant.MessageConstant;
 import com.trade.exception.BaseException;
 import com.trade.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -12,9 +14,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    /*
-    全局异常处理器
-     */
+
     @ExceptionHandler(BaseException.class)
     public Result<Object> exceptionHandler(BaseException ex) {
         log.error("异常信息:{}", ex.getMessage());
@@ -42,6 +42,7 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public Result<Object> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
         String message = ex.getMessage();
